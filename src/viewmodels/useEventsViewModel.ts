@@ -93,13 +93,13 @@ export function useEventsViewModel(userId?: string, groupId?: string) {
       const now = new Date();
       const upcoming = eventsWithDetails.filter((e) => new Date(e.start_time) > now);
 
-      setState({
+      setState((prev) => ({
+        ...prev,
         events: eventsWithDetails,
-        currentEvent: state.currentEvent,
         upcomingEvents: upcoming,
         isLoading: false,
         error: null,
-      });
+      }));
     } catch (error) {
       setState((prev) => ({
         ...prev,
@@ -107,7 +107,7 @@ export function useEventsViewModel(userId?: string, groupId?: string) {
         error: error instanceof Error ? error.message : "Failed to fetch events",
       }));
     }
-  }, [userId, groupId, state.currentEvent]);
+  }, [userId, groupId]);
 
   useEffect(() => {
     fetchEvents();
@@ -186,8 +186,9 @@ export function useEventsViewModel(userId?: string, groupId?: string) {
     }
   };
 
-  const fetchEventDetails = async (eventId: string) => {
+  const fetchEventDetails = useCallback(async (eventId: string) => {
     try {
+      setState((prev) => ({ ...prev, isLoading: true, error: null }));
       const { data: event, error } = await supabase
         .from("events")
         .select(`
@@ -216,12 +217,14 @@ export function useEventsViewModel(userId?: string, groupId?: string) {
         pendingCount: event.event_attendees?.filter((a: { rsvp: string }) => a.rsvp === "pending").length || 0,
       };
 
-      setState((prev) => ({ ...prev, currentEvent: eventWithDetails }));
+      setState((prev) => ({ ...prev, currentEvent: eventWithDetails, isLoading: false }));
       return { data: eventWithDetails };
     } catch (error) {
-      return { error: error instanceof Error ? error.message : "Failed to fetch event details" };
+      const errorMessage = error instanceof Error ? error.message : "Failed to fetch event details";
+      setState((prev) => ({ ...prev, isLoading: false, error: errorMessage }));
+      return { error: errorMessage };
     }
-  };
+  }, []);
 
   const updateRSVP = async (eventId: string, response: RSVPStatus) => {
     if (!userId) return { error: "Not authenticated" };

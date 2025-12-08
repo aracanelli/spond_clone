@@ -60,6 +60,7 @@
     "@types/web-push": "^3.6.3",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^17.2.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.15",
     "jsdom": "^25.0.0",
@@ -69,4 +70,3 @@
     "vitest": "^2.1.1"
   }
 }
-

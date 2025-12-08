@@ -67,12 +67,12 @@ export function useUserViewModel() {
       // Fetch preferences
       const { data: preferences } = await supabase
         .from("user_preferences")
-        .select("*")
+        .select("id, user_id, phone_number, carrier, allow_sms, allow_push, allow_email, created_at, updated_at")
         .eq("user_id", user.id)
         .single();
 
-      // Check if onboarding is needed (no preferences or no phone/carrier)
-      const needsOnboarding = !preferences || (!preferences.phone_number && !preferences.carrier);
+      // Check if onboarding is needed (no preferences, or SMS enabled but no phone/carrier)
+      const needsOnboarding = !preferences || (preferences.allow_sms && (!preferences.phone_number || !preferences.carrier));
 
       setState({
         user,
@@ -102,7 +102,9 @@ export function useUserViewModel() {
     if (!state.user) return { error: "No user found" };
 
     try {
+      console.log("Updating preferences for user:", state.user.id, "Updates:", updates);
       if (state.preferences) {
+        console.log("Updating existing preferences record");
         // Update existing preferences
         const { data, error } = await supabase
           .from("user_preferences")
@@ -110,6 +112,8 @@ export function useUserViewModel() {
           .eq("user_id", state.user.id)
           .select()
           .single();
+
+        console.log("Supabase update result:", { data: JSON.stringify(data), error });
 
         if (error) throw error;
         setState((prev) => ({ ...prev, preferences: data, needsOnboarding: false }));
@@ -130,6 +134,7 @@ export function useUserViewModel() {
         return { data };
       }
     } catch (error) {
+      console.error("Error in updatePreferences:", error);
       return { error: error instanceof Error ? error.message : "Failed to update preferences" };
     }
   };

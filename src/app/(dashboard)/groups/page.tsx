@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Plus, Users, Search } from "lucide-react";
@@ -26,10 +26,37 @@ const itemVariants = {
 };
 
 export default function GroupsPage() {
-  const { user } = useUserViewModel();
-  const { groups, isLoading } = useGroupsViewModel(user?.id);
+  const { user, isLoading: userLoading, error: userError, syncUser } = useUserViewModel();
+  const { groups, isLoading, createGroup } = useGroupsViewModel(user?.id);
   const [searchQuery, setSearchQuery] = useState("");
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+
+  // Debug and retry user sync if needed
+  useEffect(() => {
+    if (userError) {
+      console.error("User sync error:", userError);
+    }
+    if (!userLoading && !user && !userError) {
+      console.warn("No user found - attempting to sync...");
+      syncUser();
+    }
+    if (user) {
+      console.log("User synced successfully:", { id: user.id, email: user.email });
+    }
+  }, [user, userLoading, userError, syncUser]);
+
+  // Debug: Log user state
+  useEffect(() => {
+    if (userError) {
+      console.error("User error:", userError);
+    }
+    if (!userLoading && !user) {
+      console.warn("No user found - user sync may have failed");
+    }
+    if (user) {
+      console.log("User synced:", { id: user.id, email: user.email, clerk_id: user.clerk_id });
+    }
+  }, [user, userLoading, userError]);
 
   const filteredGroups = groups.filter((group) =>
     group.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -158,7 +185,7 @@ export default function GroupsPage() {
       <CreateGroupDialog
         open={showCreateDialog}
         onClose={() => setShowCreateDialog(false)}
-        userId={user?.id}
+        createGroup={createGroup}
       />
     </div>
   );

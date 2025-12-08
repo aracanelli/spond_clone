@@ -52,3 +52,7 @@ next-env.d.ts
 testsprite_tests/tmp/
 testsprite_tests/*.json
 
+# Test credentials (keep secure, never commit)
+.test-credentials.json
+testsprite_tests/config.json
+

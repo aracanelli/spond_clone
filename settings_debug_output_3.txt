@@ -1,0 +1,25 @@
+SyntaxError: C:\Users\racan\OneDrive\Desktop\spond2.0\e2e\test_settings.spec.ts: Unexpected token, expected "," (21:4)
+
+[0m [90m 19 |[39m
+ [90m 20 |[39m     [90m// Handle welcome modal[39m
+[31m[1m>[22m[39m[90m 21 |[39m     [36mconst[39m skipBtn [33m=[39m page[33m.[39mgetByRole([32m'button'[39m[33m,[39m { name[33m:[39m [32m'Skip for now'[39m })[33m;[39m
+ [90m    |[39m     [31m[1m^[22m[39m
+ [90m 22 |[39m [36mif[39m ([36mawait[39m skipBtn[33m.[39misVisible({ timeout[33m:[39m [35m5000[39m })[33m.[39m[36mcatch[39m(() [33m=>[39m [36mfalse[39m)) {
+ [90m 23 |[39m     [36mawait[39m skipBtn[33m.[39mclick()[33m;[39m
+ [90m 24 |[39m }[0m
+
+   at test_settings.spec.ts:21
+
+  19 |
+  20 |     // Handle welcome modal
+> 21 |     const skipBtn = page.getByRole('button', { name: 'Skip for now' });
+     |    ^
+  22 | if (await skipBtn.isVisible({ timeout: 5000 }).catch(() => false)) {
+  23 |     await skipBtn.click();
+  24 | }
+
+Error: No tests found.
+Make sure that arguments are regular expressions matching test files.
+You may need to escape symbols like "$" or "*" and quote the arguments.
+
+[1A[2K

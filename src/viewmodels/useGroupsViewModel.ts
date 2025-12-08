@@ -60,12 +60,12 @@ export function useGroupsViewModel(userId?: string) {
         subgroups: g.subgroups || [],
       }));
 
-      setState({
+      setState((prev) => ({
+        ...prev,
         groups: groupsWithCount,
-        currentGroup: state.currentGroup,
         isLoading: false,
         error: null,
-      });
+      }));
     } catch (error) {
       setState((prev) => ({
         ...prev,
@@ -73,7 +73,7 @@ export function useGroupsViewModel(userId?: string) {
         error: error instanceof Error ? error.message : "Failed to fetch groups",
       }));
     }
-  }, [userId, state.currentGroup]);
+  }, [userId]);
 
   useEffect(() => {
     fetchGroups();
@@ -149,8 +149,9 @@ export function useGroupsViewModel(userId?: string) {
     }
   };
 
-  const fetchGroupDetails = async (groupId: string) => {
+  const fetchGroupDetails = useCallback(async (groupId: string) => {
     try {
+      setState((prev) => ({ ...prev, isLoading: true, error: null }));
       const { data: group, error } = await supabase
         .from("groups")
         .select(`
@@ -173,12 +174,14 @@ export function useGroupsViewModel(userId?: string) {
         memberCount: group.group_members?.length || 0,
       };
 
-      setState((prev) => ({ ...prev, currentGroup: groupWithDetails }));
+      setState((prev) => ({ ...prev, currentGroup: groupWithDetails, isLoading: false }));
       return { data: groupWithDetails };
     } catch (error) {
-      return { error: error instanceof Error ? error.message : "Failed to fetch group details" };
+      const errorMessage = error instanceof Error ? error.message : "Failed to fetch group details";
+      setState((prev) => ({ ...prev, isLoading: false, error: errorMessage }));
+      return { error: errorMessage };
     }
-  };
+  }, []);
 
   const createSubgroup = async (groupId: string, data: { name: string; type?: string }) => {
     try {

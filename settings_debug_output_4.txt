@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+[1A[2K[1/1] [chromium] › e2e\test_settings.spec.ts:3:5 › settings preferences update
+[1A[2K[chromium] › e2e\test_settings.spec.ts:3:5 › settings preferences update
+BROWSER LOG: %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold
+
+[1A[2KBROWSER LOG: Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview
+
+[1A[2K  1) [chromium] › e2e\test_settings.spec.ts:3:5 › settings preferences update ──────────────────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByPlaceholder('Enter your email address')[22m
+
+
+      13 |     // Check if redirected to sign-in
+      14 |     if (page.url().includes('sign-in')) {
+    > 15 |         await page.getByPlaceholder('Enter your email address').fill('test-admin@spond-test.com');
+         |                                                                 ^
+      16 |         await page.getByRole('button', { name: 'Continue', exact: true }).click();
+      17 |         await page.getByPlaceholder('Enter your password').fill('TestPassword123!111111');
+      18 |         await page.getByRole('button', { name: 'Continue', exact: true }).click();
+        at C:\Users\racan\OneDrive\Desktop\spond2.0\e2e\test_settings.spec.ts:15:65
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\test_settings-settings-preferences-update-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\test_settings-settings-preferences-update-chromium\error-context.md
+
+
+[1A[2K  1 failed
+    [chromium] › e2e\test_settings.spec.ts:3:5 › settings preferences update ───────────────────────
