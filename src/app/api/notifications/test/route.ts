@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import webpush from "web-push";
 import { createServerClient } from "@/lib/supabase/client";
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 // Configure web-push
 webpush.setVapidDetails(
   `mailto:admin@${process.env.NEXT_PUBLIC_APP_URL?.replace(/https?:\/\//, "") || "example.com"}`,

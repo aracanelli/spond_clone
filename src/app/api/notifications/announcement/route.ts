@@ -15,6 +15,9 @@ if (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const { announcementId, groupId, subgroupId } = await request.json();
