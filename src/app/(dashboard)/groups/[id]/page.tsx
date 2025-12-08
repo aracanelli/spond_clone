@@ -50,7 +50,7 @@ const roleColors: Record<MemberRole, string> = {
 export default function GroupDetailPage() {
   const params = useParams();
   const groupId = params.id as string;
-  const { user } = useUserViewModel();
+  const { user, isLoading: userLoading } = useUserViewModel();
   const { currentGroup, fetchGroupDetails, isLoading, error } = useGroupsViewModel(user?.id);
   const { events } = useEventsViewModel(user?.id, groupId);
   const [showSubgroupDialog, setShowSubgroupDialog] = useState(false);
@@ -62,9 +62,8 @@ export default function GroupDetailPage() {
     }
   }, [groupId, user?.id, fetchGroupDetails]);
 
-
-
-  if (isLoading) {
+  // Show loading while user is authenticating OR while group data is being fetched
+  if (isLoading || userLoading) {
     return (
       <div className="min-h-screen">
         <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 animate-pulse" />

@@ -32,7 +32,7 @@ export default function EventDetailPage() {
   const router = useRouter();
   const eventId = params.id as string;
 
-  const { user } = useUserViewModel();
+  const { user, isLoading: userLoading } = useUserViewModel();
   const { currentEvent, fetchEventDetails, updateRSVP, deleteEvent, isLoading, error } =
     useEventsViewModel(user?.id);
 
@@ -90,7 +90,8 @@ export default function EventDetailPage() {
     }
   };
 
-  if (isLoading) {
+  // Show loading while user is authenticating OR while event data is being fetched
+  if (isLoading || userLoading) {
     return (
       <div className="min-h-screen">
         <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 animate-pulse" />
