@@ -1,0 +1,67 @@
+# Bugbot Configuration
+# This helps Bugbot understand your project structure
+
+enabled: true
+
+# Language and framework detection
+language: typescript
+framework: nextjs
+
+# Directories to scan for bugs
+scan_directories:
+  - src/
+  - app/
+
+# Files to ignore
+ignore_patterns:
+  - "**/*.test.ts"
+  - "**/*.test.tsx"
+  - "**/*.spec.ts"
+  - "**/node_modules/**"
+  - "**/.next/**"
+  - "**/coverage/**"
+
+# Bug detection settings
+detection:
+  # Severity levels: critical, high, medium, low
+  min_severity: low
+  
+  # Types of issues to detect
+  categories:
+    - security
+    - performance
+    - error-handling
+    - type-safety
+    - memory-leaks
+    - null-reference
+    - async-await
+    - react-hooks
+
+# Auto-fix settings
+auto_fix:
+  enabled: false
+  create_pr: false
+
+# Notification settings
+notifications:
+  # Create issues for detected bugs
+  create_issues: true
+  
+  # Add labels to created issues
+  labels:
+    - bug
+    - automated
+  
+  # Assignees for created issues
+  assignees: []
+
+# Integration with other tools
+integrations:
+  # Link with CodeRabbit findings
+  coderabbit: true
+  
+  # Link with GitHub Actions
+  github_actions: true
+
+
+

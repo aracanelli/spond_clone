@@ -1,0 +1,22 @@
+# CODEOWNERS - Defines code ownership for pull request reviews
+# Documentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+* @racan
+
+# Frontend components
+/src/components/ @racan
+
+# API routes
+/src/app/api/ @racan
+
+# ViewModels (business logic)
+/src/viewmodels/ @racan
+
+# Configuration files
+*.json @racan
+*.yaml @racan
+*.yml @racan
+
+
+

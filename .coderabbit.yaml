@@ -1,0 +1,101 @@
+# CodeRabbit Configuration
+# Documentation: https://docs.coderabbit.ai/guides/configure-coderabbit
+
+language: en-US
+
+reviews:
+  # Enable auto-review for PRs
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+      - develop
+  
+  # Review profile (chill, assertive, or default)
+  profile: assertive
+  
+  # Request changes on high severity issues
+  request_changes_workflow: true
+  
+  # High-level summary in PR comments
+  high_level_summary: true
+  high_level_summary_placeholder: "@coderabbitai summary"
+  
+  # Review status in PR comments
+  review_status: true
+  
+  # Poem in review comments (fun feature)
+  poem: false
+  
+  # Collapse walkthrough in review
+  collapse_walkthrough: true
+  
+  # Sequence diagrams for code flow
+  sequence_diagrams: true
+  
+  # Abort on close event
+  abort_on_close: true
+
+  # Path-specific instructions
+  path_instructions:
+    - path: "src/components/**/*"
+      instructions: |
+        - Ensure components follow React best practices
+        - Check for proper TypeScript typing
+        - Verify accessibility (a11y) compliance
+        - Look for performance optimizations (memo, useMemo, useCallback)
+    
+    - path: "src/viewmodels/**/*"
+      instructions: |
+        - Verify MVVM pattern is followed correctly
+        - Check for proper separation of concerns
+        - Ensure proper error handling
+        - Verify state management patterns
+    
+    - path: "src/app/api/**/*"
+      instructions: |
+        - Check for proper error handling and response codes
+        - Verify input validation
+        - Ensure proper authentication checks
+        - Look for security vulnerabilities
+    
+    - path: "src/lib/**/*"
+      instructions: |
+        - Check for proper TypeScript types
+        - Verify utility functions are pure and reusable
+        - Ensure proper error handling
+
+chat:
+  # Enable chat feature
+  auto_reply: true
+
+# Ignore certain files from review
+ignore:
+  - "**/*.md"
+  - "**/*.json"
+  - "**/*.lock"
+  - "**/node_modules/**"
+  - "**/.next/**"
+  - "**/coverage/**"
+  - "**/*.test.ts"
+  - "**/*.test.tsx"
+  - "**/*.spec.ts"
+  - "**/e2e/**"
+
+# Early access features
+early_access: true
+
+# Enable knowledge base
+knowledge_base:
+  learnings:
+    scope: auto
+  issues:
+    scope: auto
+  jira:
+    project_keys: []
+  linear:
+    team_keys: []
+
+
+
