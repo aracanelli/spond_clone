@@ -1,0 +1,28 @@
+# CodeRabbit ignore file
+# Files and directories to exclude from review
+
+# Documentation files
+**/*.md
+!README.md
+
+# Configuration and lock files
+**/*.json
+**/*.lock
+
+# Dependencies and build artifacts
+**/node_modules/**
+**/.next/**
+**/coverage/**
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/e2e/**
+**/testsprite_tests/**
+**/test-results/**
+**/playwright-report/**
+
+# Database files
+**/supabase/**
+

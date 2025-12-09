@@ -14,6 +14,7 @@ import {
   MoreVertical,
   Crown,
   Shield,
+  ArrowLeft,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -49,25 +50,50 @@ const roleColors: Record<MemberRole, string> = {
 export default function GroupDetailPage() {
   const params = useParams();
   const groupId = params.id as string;
-  const { user } = useUserViewModel();
-  const { currentGroup, fetchGroupDetails, isLoading } = useGroupsViewModel(user?.id);
+  const { user, isLoading: userLoading } = useUserViewModel();
+  const { currentGroup, fetchGroupDetails, isLoading, error } = useGroupsViewModel(user?.id);
   const { events } = useEventsViewModel(user?.id, groupId);
   const [showSubgroupDialog, setShowSubgroupDialog] = useState(false);
   const [showInviteDialog, setShowInviteDialog] = useState(false);
 
   useEffect(() => {
-    if (groupId) {
+    if (groupId && user?.id) {
       fetchGroupDetails(groupId);
     }
-  }, [groupId, fetchGroupDetails]);
+  }, [groupId, user?.id, fetchGroupDetails]);
 
-  if (isLoading || !currentGroup) {
+  // Show loading while user is authenticating OR while group data is being fetched
+  if (isLoading || userLoading) {
     return (
       <div className="min-h-screen">
         <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 animate-pulse" />
         <div className="p-4 lg:p-8 space-y-4">
           <div className="h-8 bg-muted rounded w-1/3 animate-pulse" />
           <div className="h-4 bg-muted rounded w-1/2 animate-pulse" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !currentGroup) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="text-center space-y-4 bg-card p-8 rounded-xl border shadow-sm max-w-md w-full">
+          <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+            <Shield className="w-8 h-8 text-muted-foreground" />
+          </div>
+          <h1 className="text-2xl font-bold">Group Not Found</h1>
+          <p className="text-muted-foreground">
+            The group you are looking for does not exist or you do not have permission to view it.
+          </p>
+          <div className="pt-4">
+            <Link href="/groups">
+              <Button>
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Groups
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -83,7 +109,7 @@ export default function GroupDetailPage() {
       <div className="relative h-48 lg:h-64 bg-gradient-to-br from-primary to-secondary overflow-hidden">
         <div className="absolute inset-0 pattern-dots opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-        
+
         <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-8">
           <div className="flex items-end gap-4">
             <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-2xl bg-card shadow-xl flex items-center justify-center text-3xl font-bold border-4 border-background">

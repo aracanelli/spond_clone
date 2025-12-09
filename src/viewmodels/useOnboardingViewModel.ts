@@ -19,13 +19,28 @@ export const CARRIERS = [
   { value: "other", label: "Other" },
 ] as const;
 
+// Base schema with loose requirements, refined below
 const onboardingSchema = z.object({
-  phoneNumber: z
-    .string()
-    .min(10, "Phone number must be at least 10 digits")
-    .regex(/^[\d\s\-\+\(\)]+$/, "Invalid phone number format"),
-  carrier: z.string().min(1, "Please select a carrier"),
+  phoneNumber: z.string(),
+  carrier: z.string(),
   allowSms: z.boolean(),
+}).superRefine((data, ctx) => {
+  if (data.allowSms) {
+    if (data.phoneNumber.length < 10 || !/^[\d\s\-\+\(\)]+$/.test(data.phoneNumber)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Phone number must be at least 10 digits",
+        path: ["phoneNumber"],
+      });
+    }
+    if (data.carrier.length < 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Please select a carrier",
+        path: ["carrier"],
+      });
+    }
+  }
 });
 
 export type OnboardingFormData = z.infer<typeof onboardingSchema>;
@@ -111,6 +126,8 @@ export function useOnboardingViewModel() {
     skipOnboarding,
   };
 }
+
+
 
 
 

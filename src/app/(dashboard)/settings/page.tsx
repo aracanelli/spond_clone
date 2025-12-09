@@ -80,6 +80,13 @@ export default function SettingsPage() {
         title: "Settings Updated",
         description: "Your preferences have been saved.",
       });
+    } else {
+      console.error("Failed to update settings:", result.error);
+      toast({
+        title: "Error",
+        description: `Failed to save: ${result.error}`,
+        variant: "destructive",
+      });
     }
   };
 
@@ -337,6 +344,5 @@ export default function SettingsPage() {
     </div>
   );
 }
-
 
 

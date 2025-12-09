@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Users, Image } from "lucide-react";
+import { Users } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -14,17 +14,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useGroupsViewModel } from "@/viewmodels/useGroupsViewModel";
 import { toast } from "@/hooks/use-toast";
-
 interface CreateGroupDialogProps {
   open: boolean;
   onClose: () => void;
-  userId?: string;
+  createGroup: (data: { name: string; description?: string; image_url?: string }) => Promise<{ data?: any; error?: string }>;
 }
 
-export function CreateGroupDialog({ open, onClose, userId }: CreateGroupDialogProps) {
-  const { createGroup } = useGroupsViewModel(userId);
+export function CreateGroupDialog({ open, onClose, createGroup }: CreateGroupDialogProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -77,8 +74,8 @@ export function CreateGroupDialog({ open, onClose, userId }: CreateGroupDialogPr
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
+    <Dialog open={open} onOpenChange={(open) => !open && !isSubmitting && handleClose()}>
+      <DialogContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <div className="mx-auto w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-2">
             <Users className="w-7 h-7 text-primary" />
@@ -163,6 +160,3 @@ export function CreateGroupDialog({ open, onClose, userId }: CreateGroupDialogPr
     </Dialog>
   );
 }
-
-
-

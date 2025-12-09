@@ -4,6 +4,22 @@
 language: en-US
 
 reviews:
+  # Path Filters
+  path_filters:
+    - '!**/*.md'
+    - '!**/*.json'
+    - '!**/*.lock'
+    - '!**/node_modules/**'
+    - '!**/.next/**'
+    - '!**/coverage/**'
+    - '!**/*.test.ts'
+    - '!**/*.test.tsx'
+    - '!**/*.spec.ts'
+    - '!**/e2e/**'
+    - '!**/testsprite_tests/**'
+    - '!**/test-results/**'
+    - '!**/playwright-report/**'
+    - '!**/supabase/**'
   # Enable auto-review for PRs
   auto_review:
     enabled: true
@@ -70,19 +86,6 @@ chat:
   # Enable chat feature
   auto_reply: true
 
-# Ignore certain files from review
-ignore:
-  - "**/*.md"
-  - "**/*.json"
-  - "**/*.lock"
-  - "**/node_modules/**"
-  - "**/.next/**"
-  - "**/coverage/**"
-  - "**/*.test.ts"
-  - "**/*.test.tsx"
-  - "**/*.spec.ts"
-  - "**/e2e/**"
-
 # Early access features
 early_access: true
 
@@ -96,6 +99,8 @@ knowledge_base:
     project_keys: []
   linear:
     team_keys: []
+
+
 
 
 

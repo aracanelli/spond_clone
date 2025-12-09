@@ -32,15 +32,15 @@ export default function EventDetailPage() {
   const router = useRouter();
   const eventId = params.id as string;
 
-  const { user } = useUserViewModel();
-  const { currentEvent, fetchEventDetails, updateRSVP, deleteEvent, isLoading } =
+  const { user, isLoading: userLoading } = useUserViewModel();
+  const { currentEvent, fetchEventDetails, updateRSVP, deleteEvent, isLoading, error } =
     useEventsViewModel(user?.id);
 
   useEffect(() => {
-    if (eventId) {
+    if (eventId && user?.id) {
       fetchEventDetails(eventId);
     }
-  }, [eventId, fetchEventDetails]);
+  }, [eventId, user?.id, fetchEventDetails]);
 
   const handleRSVP = async (response: "yes" | "no") => {
     const result = await updateRSVP(eventId, response);
@@ -90,13 +90,38 @@ export default function EventDetailPage() {
     }
   };
 
-  if (isLoading || !currentEvent) {
+  // Show loading while user is authenticating OR while event data is being fetched
+  if (isLoading || userLoading) {
     return (
       <div className="min-h-screen">
         <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 animate-pulse" />
         <div className="p-4 lg:p-8 space-y-4">
           <div className="h-8 bg-muted rounded w-1/3 animate-pulse" />
           <div className="h-4 bg-muted rounded w-1/2 animate-pulse" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !currentEvent) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="text-center space-y-4 bg-card p-8 rounded-xl border shadow-sm max-w-md w-full">
+          <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+            <Calendar className="w-8 h-8 text-muted-foreground" />
+          </div>
+          <h1 className="text-2xl font-bold">Event Not Found</h1>
+          <p className="text-muted-foreground">
+            The event you are looking for does not exist or has been deleted.
+          </p>
+          <div className="pt-4">
+            <Link href="/events">
+              <Button>
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Events
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     );

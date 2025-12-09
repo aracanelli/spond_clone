@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Plus, Users, Search } from "lucide-react";
@@ -26,10 +26,17 @@ const itemVariants = {
 };
 
 export default function GroupsPage() {
-  const { user } = useUserViewModel();
-  const { groups, isLoading } = useGroupsViewModel(user?.id);
+  const { user, isLoading: userLoading, error: userError, syncUser } = useUserViewModel();
+  const { groups, isLoading, createGroup } = useGroupsViewModel(user?.id);
   const [searchQuery, setSearchQuery] = useState("");
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+
+  // Retry user sync if needed
+  useEffect(() => {
+    if (!userLoading && !user && !userError) {
+      syncUser();
+    }
+  }, [user, userLoading, userError, syncUser]);
 
   const filteredGroups = groups.filter((group) =>
     group.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -158,7 +165,7 @@ export default function GroupsPage() {
       <CreateGroupDialog
         open={showCreateDialog}
         onClose={() => setShowCreateDialog(false)}
-        userId={user?.id}
+        createGroup={createGroup}
       />
     </div>
   );

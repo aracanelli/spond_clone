@@ -52,3 +52,23 @@ next-env.d.ts
 testsprite_tests/tmp/
 testsprite_tests/*.json
 
+# Test credentials (keep secure, never commit)
+.test-credentials.json
+testsprite_tests/config.json
+
+# Test output files
+debug_output.txt
+settings_debug_output*.txt
+settings_test_output.txt
+
+# Documentation files (keep README.md and GitHub templates)
+*.md
+!README.md
+!.github/**/*.md
+
+# Other
+e2e
+test-results
+playwright-report
+testsprite_tests
+supabase

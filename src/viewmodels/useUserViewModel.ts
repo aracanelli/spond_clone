@@ -67,12 +67,12 @@ export function useUserViewModel() {
       // Fetch preferences
       const { data: preferences } = await supabase
         .from("user_preferences")
-        .select("*")
+        .select("id, user_id, phone_number, carrier, allow_sms, allow_push, allow_email, created_at, updated_at")
         .eq("user_id", user.id)
         .single();
 
-      // Check if onboarding is needed (no preferences or no phone/carrier)
-      const needsOnboarding = !preferences || (!preferences.phone_number && !preferences.carrier);
+      // Check if onboarding is needed (no preferences, or SMS enabled but no phone/carrier)
+      const needsOnboarding = !preferences || (preferences.allow_sms && (!preferences.phone_number || !preferences.carrier));
 
       setState({
         user,
