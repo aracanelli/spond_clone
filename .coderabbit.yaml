@@ -4,6 +4,22 @@
 language: en-US
 
 reviews:
+  # Path Filters
+  path_filters:
+    - '!**/*.md'
+    - '!**/*.json'
+    - '!**/*.lock'
+    - '!**/node_modules/**'
+    - '!**/.next/**'
+    - '!**/coverage/**'
+    - '!**/*.test.ts'
+    - '!**/*.test.tsx'
+    - '!**/*.spec.ts'
+    - '!**/e2e/**'
+    - '!**/testsprite_tests/**'
+    - '!**/test-results/**'
+    - '!**/playwright-report/**'
+    - '!**/supabase/**'
   # Enable auto-review for PRs
   auto_review:
     enabled: true
