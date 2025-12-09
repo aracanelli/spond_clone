@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Users, Image } from "lucide-react";
+import { Users } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -29,7 +29,6 @@ export function CreateGroupDialog({ open, onClose, createGroup }: CreateGroupDia
     image_url: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [debugLog, setDebugLog] = useState<string[]>([]);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -157,17 +156,7 @@ export function CreateGroupDialog({ open, onClose, createGroup }: CreateGroupDia
             {isSubmitting ? "Creating..." : "Create Group"}
           </Button>
         </div>
-        {debugLog.length > 0 && (
-          <div className="mt-4 p-2 bg-muted rounded text-xs font-mono">
-            {debugLog.map((log, i) => (
-              <div key={i}>{log}</div>
-            ))}
-          </div>
-        )}
       </DialogContent>
     </Dialog>
   );
 }
-
-
-

@@ -102,9 +102,7 @@ export function useUserViewModel() {
     if (!state.user) return { error: "No user found" };
 
     try {
-      console.log("Updating preferences for user:", state.user.id, "Updates:", updates);
       if (state.preferences) {
-        console.log("Updating existing preferences record");
         // Update existing preferences
         const { data, error } = await supabase
           .from("user_preferences")
@@ -112,8 +110,6 @@ export function useUserViewModel() {
           .eq("user_id", state.user.id)
           .select()
           .single();
-
-        console.log("Supabase update result:", { data: JSON.stringify(data), error });
 
         if (error) throw error;
         setState((prev) => ({ ...prev, preferences: data, needsOnboarding: false }));
@@ -134,7 +130,6 @@ export function useUserViewModel() {
         return { data };
       }
     } catch (error) {
-      console.error("Error in updatePreferences:", error);
       return { error: error instanceof Error ? error.message : "Failed to update preferences" };
     }
   };

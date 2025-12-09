@@ -82,6 +82,10 @@ ignore:
   - "**/*.test.tsx"
   - "**/*.spec.ts"
   - "**/e2e/**"
+  - "**/testsprite_tests/**"
+  - "**/test-results/**"
+  - "**/playwright-report/**"
+  - "**/supabase/**"
 
 # Early access features
 early_access: true
@@ -96,6 +100,8 @@ knowledge_base:
     project_keys: []
   linear:
     team_keys: []
+
+
 
 
 

@@ -228,3 +228,5 @@ CREATE TRIGGER update_event_attendees_updated_at BEFORE UPDATE ON event_attendee
 
 
 
+
+

@@ -97,3 +97,4 @@ SELECT id, clerk_id, email, full_name FROM users WHERE email LIKE 'test-%@spond-
 
 After running this, refresh your browser and try creating a group again.
 
+

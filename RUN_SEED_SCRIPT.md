@@ -108,3 +108,4 @@ After seeding:
 
 **Ready?** Copy the script and paste it into Supabase SQL Editor! 🚀
 
+

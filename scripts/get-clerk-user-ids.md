@@ -31,3 +31,4 @@ Player User ID: user_36ZVSZFTBSfxzcB9WpXWoO7LEdc
 
 If you prefer, you can also get the User IDs programmatically after logging in once. The users will be automatically created in Supabase on first login, and you can query them.
 
+
