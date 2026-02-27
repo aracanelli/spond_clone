@@ -54,7 +54,7 @@
   "devDependencies": {
     "@playwright/test": "^1.47.1",
     "@testing-library/react": "^16.0.1",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/web-push": "^3.6.3",
